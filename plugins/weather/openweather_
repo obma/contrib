@@ -26,9 +26,7 @@ OWAPI=$( curl -s "http://api.openweathermap.org/data/2.5/weather?mode=xml&${quer
 # &units=metric would change that ;-)
 KELVIN_BIAS=273
 
-curl -s "http://api.openweathermap.org/data/2.5/weather?mode=xml&${query_string}&APPID=${apikey}" > $TMPFILE
-
-CITY=$(fgrep "<city id=" $TMPFILE | tr -sc '[:alnum:]' ' ' | cut -d " " -f 6)
+CITY=$( expr "$OWAPI" : '.*\<city.*name=\"\(.*\)\"><coord.*' )
 
 if [ "$1" = "config" ];
 then
